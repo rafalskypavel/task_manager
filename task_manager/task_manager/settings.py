@@ -1,16 +1,37 @@
 import os
 from pathlib import Path
+
+from celery.schedules import crontab
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv()
+# Загрузка .env файлов в порядке приоритета
+env_files = [
+    BASE_DIR / 'my.env',  # Самый высокий приоритет
+    BASE_DIR / '.env',    # Фолбэк
+]
+
+for env_file in env_files:
+    if env_file.exists():  # Проверяем существование файла
+        load_dotenv(env_file, override=True)
+        print(f"Loaded environment from: {env_file}")  # Для дебага
+        break
+else:
+    print("Warning: No .env files found! Using system environment variables.")
+
+# Проверка обязательных переменных
+if not os.getenv('TELEGRAM_TOKEN'):
+    raise ValueError(
+        "TELEGRAM_TOKEN is not set! Please add it to my.env or .env file.\n"
+    )
 
 DEBUG = True
 # DEBUG = False
 SECRET_KEY = os.getenv('SECRET_KEY')
 ALLOWED_HOSTS = ['*']
+
 
 
 # Application definition
@@ -118,13 +139,14 @@ CELERY_WORKER_PREFETCH_MULTIPLIER = 1  # Распределение задач �
 CELERY_BEAT_SCHEDULE = {
     'check-deadlines-every-minute': {
         'task': 'tasks.tasks.check_deadlines',
-        # 'schedule': crontab(minute='*'),
-        'schedule': 30.0,
+        'schedule': crontab(minute='*'),
+        # 'schedule': 30.0,
     },
 }
 
 API_URL = os.getenv('API_URL', 'http://localhost:8000/api/')
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_TOKEN')
+
 
 API_REQUEST_TIMEOUT = int(os.getenv('API_REQUEST_TIMEOUT', '10'))
 

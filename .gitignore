@@ -130,6 +130,7 @@ celerybeat.pid
 
 # Environments
 #.env
+task_manager/my.env
 .venv
 env/
 venv/
@@ -185,3 +186,5 @@ cython_debug/
 celerybeat-schedule
 
 static/
+
+1.txt
