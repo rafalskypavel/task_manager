@@ -41,14 +41,11 @@ python -m venv venv
 # Windows: .\venv\Scripts\activate
 Создайте файл .env с содержимым:
 
-ini
 SECRET_KEY=ваш_секретный_ключ_django
 TELEGRAM_TOKEN=токен_бота_от_BotFather
 2. Установка зависимостей
-bash
 pip install -r requirements.txt
 3. Запуск системы
-bash
 python manage.py migrate
 python manage.py runserver
 celery -A task_manager worker --loglevel=info --pool=eventlet -B
