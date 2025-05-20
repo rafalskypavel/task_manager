@@ -33,41 +33,27 @@
 
 ---
 
-## ⚙️ Настройка и запуск
-
-### 1. Настройка окружения
-
-# Создаем виртуальное окружение окружение
+⚙️ Настройка и запуск
+1. Настройка окружения
+bash
 python -m venv venv
+# Linux/MacOS: source venv/bin/activate
+# Windows: .\venv\Scripts\activate
+Создайте файл .env с содержимым:
 
-# Активируем окружение
-# Для Linux/MacOS:
-source venv/bin/activate
-# Для Windows:
-.\venv\Scripts\activate
-
-# Заполняем  файл .env:
+ini
 SECRET_KEY=ваш_секретный_ключ_django
 TELEGRAM_TOKEN=токен_бота_от_BotFather
-
-
 2. Установка зависимостей
+bash
 pip install -r requirements.txt
 3. Запуск системы
-
-# Применяем миграции
+bash
 python manage.py migrate
-
-# Запускаем сервер разработки
 python manage.py runserver
-
-# Запускаем Celery worker
 celery -A task_manager worker --loglevel=info --pool=eventlet -B
-
-# Запускаем Celery beat
 celery -A task_manager beat --loglevel=info
-
-# Запускаем Telegram бота
+redis-server.exe
 python bot.py
 
 📚 Документация API
