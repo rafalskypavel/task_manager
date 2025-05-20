@@ -13,7 +13,6 @@ markdown
 ```bash
 # 1. Создайте и активируйте venv
 python -m venv venv
-source venv/bin/activate  # Linux/MacOS
 .\venv\Scripts\activate  # Windows
 
 # 2. Установите зависимости
@@ -31,7 +30,8 @@ python bot.py  # Telegram Bot
 POST /api/tasks/ - Создать задачу
 json
 {
-  "title": "Тест",
+  "title": "Завершить проект",
+  "description": "Доделать все задачи",
   "deadline": "2023-12-31T23:59:00",
   "telegram_user_id": 123456789
 }
