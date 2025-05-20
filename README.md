@@ -36,7 +36,7 @@
 markdown
 ## ⚙️ Настройка и запуск
 
-### 1. Настройка окружения
+1. Настройка окружения
 
 Создание виртуального окружения:
 ```bash
@@ -51,7 +51,6 @@ source venv/bin/activate
 .\venv\Scripts\activate
 Создайте файл .env в корне проекта со следующим содержимым:
 
-ini
 SECRET_KEY=ваш_секретный_ключ_django
 TELEGRAM_TOKEN=токен_бота_от_BotFather
 2. Установка зависимостей
@@ -60,27 +59,21 @@ pip install -r requirements.txt
 3. Запуск системы
 Применение миграций:
 
-bash
 python manage.py migrate
 Запуск сервера разработки:
 
-bash
 python manage.py runserver
 Запуск Celery worker:
 
-bash
 celery -A task_manager worker --loglevel=info --pool=eventlet -B
 Запуск Celery beat:
 
-bash
 celery -A task_manager beat --loglevel=info
 Запуск Redis (Windows):
 
-bash
 redis-server.exe
 Запуск Telegram бота:
 
-bash
 python bot.py
 
 📚 Документация API
