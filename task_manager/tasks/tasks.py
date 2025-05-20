@@ -3,7 +3,7 @@ from celery import shared_task
 from django.utils import timezone
 from datetime import timedelta, datetime
 
-from task_manager.utils.timezone import get_local_timezone
+from django.utils.timezone import get_current_timezone
 from .models import Task
 import requests
 import logging
@@ -46,7 +46,7 @@ def check_deadlines(self):
 def send_telegram_notification(self, task_id, chat_id, task_title, deadline):
     try:
         deadline_dt = datetime.fromisoformat(deadline) if isinstance(deadline, str) else deadline
-        local_tz = get_local_timezone()
+        local_tz = get_current_timezone()
         local_deadline = deadline_dt.astimezone(local_tz)
         formatted_deadline = local_deadline.strftime('%d.%m.%Y %H:%M')
 

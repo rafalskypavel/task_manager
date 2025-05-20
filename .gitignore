@@ -116,6 +116,7 @@ ipython_config.py
 .pdm.toml
 .pdm-python
 .pdm-build/
+.idea
 
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
 __pypackages__/
@@ -179,3 +180,8 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# celery beat schedule file
+celerybeat-schedule
+
+static/

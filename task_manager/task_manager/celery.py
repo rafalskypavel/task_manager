@@ -1,6 +1,4 @@
 from __future__ import absolute_import
-import eventlet
-eventlet.monkey_patch()  # Должно быть ПЕРВОЙ инструкцией
 
 import os
 from celery import Celery
