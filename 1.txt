@@ -1,4 +1,0 @@
-celery -A task_manager beat --loglevel=info
-celery -A task_manager worker --loglevel=info --pool=eventlet -B
-python manage.py makemigrations
-python manage.py migrate
