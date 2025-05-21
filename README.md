@@ -10,23 +10,25 @@ markdown
   `/done <ID>` - Отметить выполненной  
 
 ## ⚡ Настройка
-```bash
 # 1. Создайте и активируйте venv
 python -m venv venv
-source venv/bin/activate  # Linux/MacOS
 .\venv\Scripts\activate  # Windows
 
 # 2. Установите зависимости
 pip install -r requirements.txt
 
 # 3. Настройте .env
-echo "SECRET_KEY=ваш_ключ\nTELEGRAM_TOKEN=токен_бота" > .env
+SECRET_KEY=ваш_ключ
+TELEGRAM_TOKEN=токен_бота
+
 🚀 Запуск
-bash
 # В разных терминалах:
 python manage.py migrate && python manage.py runserver  # Django
-redis-server && celery -A task_manager worker -l info -P eventlet -B  # Celery
+redis-server.exe 
+celery -A task_manager beat --loglevel=info
+celery -A task_manager worker --loglevel=info --pool=eventlet -B
 python bot.py  # Telegram Bot
+
 📡 API Документация
 POST /api/tasks/ - Создать задачу
 json
