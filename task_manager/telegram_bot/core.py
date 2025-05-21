@@ -107,22 +107,17 @@ class TelegramBot:
             ) > 100 else (task.get('description') or "Нет описания")
 
             deadline_text = "Не указан"
-            if task.get('deadline'):
+            if task.get('deadline_local'):
                 try:
-                    deadline_utc = (
-                        datetime.fromisoformat(task['deadline'])
-                        if isinstance(task['deadline'], str)
-                        else task['deadline']
-                    )
-                    if not deadline_utc.tzinfo:
-                        deadline_utc = pytz.UTC.localize(deadline_utc)
+                    # Парсим дату из формата "DD.MM.YYYY HH:MM"
+                    deadline_str = task['deadline_local']
+                    deadline_naive = datetime.strptime(deadline_str, '%d.%m.%Y %H:%M')
+                    # deadline_local уже в локальном времени, просто используем как есть
+                    deadline_text = deadline_naive.strftime('%d.%m.%Y %H:%M')
 
-                    local_tz = get_local_timezone()
-                    deadline_local = deadline_utc.astimezone(local_tz)
-                    deadline_text = deadline_local.strftime('%d.%m.%Y %H:%M')
                 except Exception as e:
                     logger.warning(f"Time formatting error for task {task_id}: {e}")
-                    deadline_text = f"Ошибка формата ({task['deadline']})"
+                    deadline_text = f"Ошибка формата ({task['deadline_local']})"
 
             return (
                 f"<b>🔹 {title}</b>\n"

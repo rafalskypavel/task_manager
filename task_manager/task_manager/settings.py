@@ -139,8 +139,8 @@ CELERY_WORKER_PREFETCH_MULTIPLIER = 1  # Распределение задач �
 CELERY_BEAT_SCHEDULE = {
     'check-deadlines-every-minute': {
         'task': 'tasks.tasks.check_deadlines',
-        'schedule': crontab(minute='*'),
-        # 'schedule': 30.0,
+        # 'schedule': crontab(minute='*'),
+        'schedule': 30.0,
     },
 }
 

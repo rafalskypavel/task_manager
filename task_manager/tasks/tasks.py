@@ -2,8 +2,7 @@ from celery import shared_task
 from django.utils import timezone
 from datetime import timedelta, datetime
 
-from django.utils.timezone import get_current_timezone
-from utils.timezone import get_local_timezone
+from task_manager.settings import TIME_ZONE
 from .models import Task
 import requests
 import logging
@@ -45,9 +44,15 @@ def check_deadlines(self):
 @shared_task(bind=True, max_retries=3)
 def send_telegram_notification(self, task_id, chat_id, task_title, deadline):
     try:
+        # deadline указан в UTC!, пример deadline: 2025-05-21T17:12:00+00:00
+
+        # deadline_dt форматирует из "2025-05-21T17:12:00+00:00" в "2025-05-21 17:12:00+00:00"
         deadline_dt = datetime.fromisoformat(deadline) if isinstance(deadline, str) else deadline
-        local_tz = get_local_timezone()
-        local_deadline = deadline_dt.astimezone(local_tz)
+
+        # здесь уже переводим в локальное время (настрйка локальной зоны в .env)
+        local_deadline = deadline_dt.astimezone(TIME_ZONE)
+
+        # formatted_deadline форматирует из "2025-05-21 20:12:00+03:00" в "21.05.2025 20:12"
         formatted_deadline = local_deadline.strftime('%d.%m.%Y %H:%M')
 
         message = (
